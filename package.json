@@ -59,7 +59,7 @@
     "test:snapshots": "tsx --test-update-snapshots --tsconfig tsconfig.test.json --test test/**/*.test.{js,ts,tsx}",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepack": "npm run build"
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
