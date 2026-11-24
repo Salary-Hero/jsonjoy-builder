@@ -44,6 +44,8 @@ export const es: Translation = {
   propertyNameRegexDescription:
     "Permite y valida propiedades cuyo nombre coincide con esta expresión regular.",
   propertyOptional: "Opcional",
+  propertyNullable: "Admite nulo",
+  propertyNotNullable: "No nulo",
   propertyDelete: "Eliminar campo",
 
   schemaEditorTitle: "Editor de JSON Schema",

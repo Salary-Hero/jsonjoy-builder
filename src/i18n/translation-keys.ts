@@ -226,6 +226,18 @@ export interface Translation {
    */
   readonly propertyOptional: string;
   /**
+   * The translation for the key `propertyNullable`. English default is:
+   *
+   * > Nullable
+   */
+  readonly propertyNullable: string;
+  /**
+   * The translation for the key `propertyNotNullable`. English default is:
+   *
+   * > Not null
+   */
+  readonly propertyNotNullable: string;
+  /**
    * The translation for the key `propertyDelete`. English default is:
    *
    * > Delete field

@@ -42,6 +42,8 @@ export const zh: Translation = {
   propertyRequired: "必填",
   propertyNameRegexDescription: "允许并验证名称匹配此正则表达式的属性。",
   propertyOptional: "可选",
+  propertyNullable: "可为空",
+  propertyNotNullable: "非空",
   propertyDelete: "删除字段",
 
   schemaEditorTitle: "JSON Schema 编辑器",

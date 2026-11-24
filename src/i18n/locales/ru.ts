@@ -44,6 +44,8 @@ export const ru: Translation = {
   propertyNameRegexDescription:
     "Разрешает и проверяет свойства, имена которых совпадают с этим регулярным выражением.",
   propertyOptional: "Необязательное",
+  propertyNullable: "Допускает null",
+  propertyNotNullable: "Не null",
   propertyDelete: "Удалить поле",
 
   schemaEditorTitle: "Редактор JSON-схем",

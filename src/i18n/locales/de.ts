@@ -43,6 +43,8 @@ export const de: Translation = {
   propertyNameRegexDescription:
     "Erlaubt und validiert Eigenschaften, deren Name auf diesen regulären Ausdruck passt.",
   propertyOptional: "Optional",
+  propertyNullable: "Nullbar",
+  propertyNotNullable: "Nicht null",
   propertyDelete: "Feld löschen",
 
   schemaEditorTitle: "JSON-Schema-Editor",

@@ -13,8 +13,11 @@ import type {
 } from "../../types/jsonSchema.ts";
 import {
   asObjectSchema,
+  canBeNullable,
   getEditorType,
   getSchemaDescription,
+  isNullableSchema,
+  setNullable,
 } from "../../types/jsonSchema.ts";
 import type { ValidationTreeNode } from "../../types/validation.ts";
 import TypeDropdown from "./TypeDropdown.tsx";
@@ -236,7 +239,10 @@ const SchemaPropertyEditorFrame: React.FC<SchemaPropertyEditorFrameProps> = ({
                   allOf: _al,
                   ...rest
                 } = asObjectSchema(schema);
-                onSchemaChange({ ...rest, type: newType });
+                const next: ObjectJsonSchema = { ...rest, type: newType };
+                onSchemaChange(
+                  isNullableSchema(schema) ? setNullable(next, true) : next,
+                );
               }
             }}
           />
@@ -330,23 +336,42 @@ export const SchemaPropertyEditor: React.FC<SchemaPropertyEditorProps> = ({
 }) => {
   const t = useTranslation();
   const ButtonToggle = useComponent("ButtonToggle");
+  const nullable = isNullableSchema(props.schema);
 
   return (
     <SchemaPropertyEditorFrame
       {...props}
       readOnly={readOnly}
       statusControl={
-        <ButtonToggle
-          onClick={() => !readOnly && onRequiredChange(!required)}
-          aria-pressed={required}
-          className={
-            required
-              ? "bg-red-50 text-red-500"
-              : "bg-secondary text-muted-foreground"
-          }
-        >
-          {required ? t.propertyRequired : t.propertyOptional}
-        </ButtonToggle>
+        <>
+          {canBeNullable(props.schema) && (!readOnly || nullable) && (
+            <ButtonToggle
+              onClick={() =>
+                !readOnly &&
+                props.onSchemaChange(setNullable(props.schema, !nullable))
+              }
+              aria-pressed={nullable}
+              className={
+                nullable
+                  ? "bg-blue-50 text-blue-600"
+                  : "bg-secondary text-muted-foreground"
+              }
+            >
+              {nullable ? t.propertyNullable : t.propertyNotNullable}
+            </ButtonToggle>
+          )}
+          <ButtonToggle
+            onClick={() => !readOnly && onRequiredChange(!required)}
+            aria-pressed={required}
+            className={
+              required
+                ? "bg-red-50 text-red-500"
+                : "bg-secondary text-muted-foreground"
+            }
+          >
+            {required ? t.propertyRequired : t.propertyOptional}
+          </ButtonToggle>
+        </>
       }
     />
   );

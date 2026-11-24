@@ -44,6 +44,8 @@ export const fr: Translation = {
   propertyNameRegexDescription:
     "Autorise et valide les propriétés dont le nom correspond à cette expression régulière.",
   propertyOptional: "Facultatif",
+  propertyNullable: "Nullable",
+  propertyNotNullable: "Non nul",
   propertyDelete: "Supprimer le champ",
 
   schemaEditorTitle: "Éditeur de schéma JSON",
