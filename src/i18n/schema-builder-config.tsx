@@ -24,9 +24,9 @@ export function SchemaBuilderProvider({
   );
 
   return (
-    <SchemaBuilderConfigContext value={mergedLocale}>
+    <SchemaBuilderConfigContext.Provider value={mergedLocale}>
       {children}
-    </SchemaBuilderConfigContext>
+    </SchemaBuilderConfigContext.Provider>
   );
 }
 

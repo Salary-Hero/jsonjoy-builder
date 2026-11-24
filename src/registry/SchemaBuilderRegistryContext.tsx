@@ -38,9 +38,9 @@ export function SchemaBuilderRegistryProvider({
   const parent = useContext(SchemaBuilderRegistryContext);
   const merged = useMemo(() => mergeRegistry(parent, value), [parent, value]);
   return (
-    <SchemaBuilderRegistryContext value={merged}>
+    <SchemaBuilderRegistryContext.Provider value={merged}>
       {children}
-    </SchemaBuilderRegistryContext>
+    </SchemaBuilderRegistryContext.Provider>
   );
 }
 
