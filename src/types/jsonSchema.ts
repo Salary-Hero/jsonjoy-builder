@@ -198,7 +198,59 @@ export function getEditorType(schema: JsonSchema): SchemaEditorType {
   if (isAllOfSchema(schema)) return "allOf";
   return withObjectSchema(
     schema,
-    (s) => (s.type || "object") as SchemaType,
+    (s) => getBaseType(s.type),
     "object" as SchemaType,
   );
+}
+
+/**
+ * The type a field is edited as: the first non-"null" entry of a type array
+ * (`["string", "null"]` → `"string"`), or the type itself.
+ */
+export function getBaseType(type: ObjectJsonSchema["type"]): SchemaType {
+  if (!Array.isArray(type)) return type || "object";
+  return type.find((t) => t !== "null") ?? type[0] ?? "object";
+}
+
+/** Whether a field accepts null next to its base type: `type: [T, "null"]`. */
+export function isNullableSchema(schema: JsonSchema): boolean {
+  return withObjectSchema(
+    schema,
+    (s) =>
+      Array.isArray(s.type) &&
+      s.type.includes("null") &&
+      s.type.some((t) => t !== "null"),
+    false,
+  );
+}
+
+/** Whether the nullable toggle applies: a single non-null type, no combinator. */
+export function canBeNullable(schema: JsonSchema): boolean {
+  if (!isObjectSchema(schema)) return false;
+  if (isAnyOfSchema(schema) || isOneOfSchema(schema) || isAllOfSchema(schema))
+    return false;
+  return getBaseType(schema.type) !== "null";
+}
+
+/**
+ * Makes a field accept null or not. Nullable writes `type: [T, "null"]` and adds
+ * `null` to an existing `enum`; non-nullable writes `type: T` and drops `null`
+ * from `enum`. Other keywords are kept as they are.
+ */
+export function setNullable(
+  schema: JsonSchema,
+  nullable: boolean,
+): ObjectJsonSchema {
+  const s = asObjectSchema(schema);
+  if (!canBeNullable(s)) return s;
+  const base = getBaseType(s.type);
+  const next: ObjectJsonSchema = {
+    ...s,
+    type: nullable ? [base, "null"] : base,
+  };
+  if (Array.isArray(s.enum)) {
+    const values = s.enum.filter((v) => v !== null);
+    next.enum = nullable ? [...values, null] : values;
+  }
+  return next;
 }

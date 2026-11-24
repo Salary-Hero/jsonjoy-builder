@@ -43,6 +43,8 @@ export const pl: Translation = {
   propertyNameRegexDescription:
     "Dopuszcza i waliduje właściwości, których nazwa pasuje do tego wyrażenia regularnego.",
   propertyOptional: "Opcjonalne",
+  propertyNullable: "Dopuszcza null",
+  propertyNotNullable: "Bez null",
   propertyDelete: "Usuń pole",
 
   schemaEditorTitle: "Edytor schematu JSON",

@@ -43,6 +43,8 @@ export const uk: Translation = {
   propertyNameRegexDescription:
     "Дозволяє й перевіряє властивості, назви яких збігаються з цим регулярним виразом.",
   propertyOptional: "Необов'язкове",
+  propertyNullable: "Допускає null",
+  propertyNotNullable: "Не null",
   propertyDelete: "Видалити поле",
 
   schemaEditorTitle: "Редактор JSON-схем",

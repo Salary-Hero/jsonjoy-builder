@@ -1,7 +1,11 @@
 import { lazy, Suspense } from "react";
 import { useTranslation } from "../../hooks/use-translation.ts";
 import type { JsonSchema, ObjectJsonSchema } from "../../types/jsonSchema.ts";
-import { getEditorType } from "../../types/jsonSchema.ts";
+import {
+  getEditorType,
+  isNullableSchema,
+  setNullable,
+} from "../../types/jsonSchema.ts";
 import type { ValidationTreeNode } from "../../types/validation.ts";
 
 // Lazy load specific type editors to avoid circular dependencies
@@ -30,9 +34,9 @@ export interface TypeEditorProps {
 }
 
 const TypeEditor: React.FC<TypeEditorProps> = ({
-  schema,
+  schema: rawSchema,
   validationNode,
-  onChange,
+  onChange: rawOnChange,
   schemaKey,
   onAddEnum,
   onDeleteEnum,
@@ -40,6 +44,13 @@ const TypeEditor: React.FC<TypeEditorProps> = ({
   readOnly = false,
 }) => {
   const t = useTranslation();
+  // Type editors work on the non-null schema; a nullable field gets its
+  // `"null"` type and enum entry back on every change.
+  const nullable = isNullableSchema(rawSchema);
+  const schema = nullable ? setNullable(rawSchema, false) : rawSchema;
+  const onChange = nullable
+    ? (updated: ObjectJsonSchema) => rawOnChange(setNullable(updated, true))
+    : rawOnChange;
   const type = getEditorType(schema);
 
   return (

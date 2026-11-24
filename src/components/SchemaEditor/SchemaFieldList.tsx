@@ -49,12 +49,7 @@ const SchemaFieldList: FC<SchemaFieldListProps> = ({
   const getValidSchemaType = (propSchema: JsonSchemaType): SchemaEditorType => {
     if (typeof propSchema === "boolean") return "object";
 
-    // Handle array of types by picking the first one
-    const type = propSchema.type;
-    if (Array.isArray(type)) {
-      return type[0] || "object";
-    }
-
+    // Type arrays resolve to their first non-"null" entry
     return getEditorType(propSchema);
   };
 
